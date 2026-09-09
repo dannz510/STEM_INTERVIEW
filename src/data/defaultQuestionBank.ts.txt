@@ -1,0 +1,801 @@
+import { QuestionBankItem, SectionDefinition } from '../types';
+
+export const DEFAULT_SECTIONS: SectionDefinition[] = [
+  {
+    id: 'competence',
+    roman: 'I',
+    title: 'Năng lực & Kinh nghiệm',
+    defaultPoints: 15,
+    description: 'Đánh giá năng lực nền tảng, mức độ phù hợp và kinh nghiệm thực tế với ban ứng tuyển.',
+    requiredFixedCount: 2,
+    randomPoolCount: 1,
+  },
+  {
+    id: 'eq',
+    roman: 'II',
+    title: 'EQ & Làm việc nhóm',
+    defaultPoints: 20,
+    description: 'Đánh giá trí tuệ cảm xúc, khả năng đồng cảm, giữ bình tĩnh và làm việc nhóm dưới áp lực cao.',
+    requiredFixedCount: 1,
+    randomPoolCount: 2,
+  },
+  {
+    id: 'situation',
+    roman: 'III',
+    title: 'Xử lý tình huống',
+    defaultPoints: 35,
+    description: 'Đánh giá khả năng phản xạ, tư duy giải quyết vấn đề thực tế và xoay sở trước các sự cố khó.',
+    requiredFixedCount: 1,
+    randomPoolCount: 3,
+  },
+  {
+    id: 'attitude',
+    roman: 'IV',
+    title: 'Thái độ & Cam kết',
+    defaultPoints: 30,
+    description: 'Đánh giá tinh thần trách nhiệm, mức độ cam kết, sự nhiệt huyết và sự sẵn sàng cống hiến cho CLB.',
+    requiredFixedCount: 1,
+    randomPoolCount: 2,
+  },
+];
+
+export const DEFAULT_QUESTION_BANK: QuestionBankItem[] = [
+  // ==========================================
+  // BAN HẬU CẦN
+  // ==========================================
+  // I. Năng lực (15đ)
+  {
+    id: 'hc_comp_1',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em hãy giới thiệu ngắn gọn về bản thân trong 1 phút.',
+    isFixed: true, // Cố định bắt buộc đầu tiên
+    defaultPoints: 3,
+    rubric: 'Đánh giá sự tự tin, mạch lạc, khả năng tóm tắt thông tin cá nhân và định hướng.',
+    tags: ['giới thiệu', 'cơ bản', 'cố định']
+  },
+  {
+    id: 'hc_comp_2',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Vì sao em muốn tham gia Ban Hậu cần thay vì các ban khác?',
+    isFixed: true, // Cố định thứ hai
+    defaultPoints: 3,
+    rubric: 'Đánh giá động lực thực tế, hiểu biết về đặc thù công việc không hào nhoáng nhưng cốt lõi.',
+    tags: ['động lực', 'cố định']
+  },
+  {
+    id: 'hc_comp_3',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em hiểu nhiệm vụ cốt lõi của Ban Hậu cần trong một CLB STEM là gì?',
+    isFixed: false,
+    defaultPoints: 3,
+    rubric: 'Hiểu vai trò quản trị cơ sở vật chất, linh kiện, mạch điện, chuẩn bị trước và dọn dẹp sau sự kiện.',
+    tags: ['kiến thức ban']
+  },
+  {
+    id: 'hc_comp_4',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em đã từng tham gia tổ chức, điều phối kho bãi, thiết bị hoặc hậu cần cho sự kiện nào chưa? Điểm mạnh/yếu của em là gì khi làm việc dưới áp lực thời gian và thể lực?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Kinh nghiệm thực chiến, tính trung thực khi nhìn nhận điểm yếu thể lực/thời gian và cách khắc phục.',
+    tags: ['kinh nghiệm', 'thể lực']
+  },
+  {
+    id: 'hc_comp_5',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Theo em, việc kiểm kê và bảo quản thiết bị điện tử, linh kiện mạch, robot cần đảm bảo những nguyên tắc an toàn gì?',
+    isFixed: false,
+    defaultPoints: 3,
+    rubric: 'Tính cẩn thận với đồ điện tử: chống ẩm, chống sốc, phân loại tem nhãn, tránh chập cháy.',
+    tags: ['kho bãi', 'an toàn']
+  },
+  {
+    id: 'hc_comp_6',
+    department: 'hau_can',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Hãy thử phác thảo một quy trình mượn - trả thiết bị ngắn gọn để không bị thất thoát linh kiện trong CLB STEM.',
+    isFixed: false,
+    defaultPoints: 3,
+    rubric: 'Tư duy logic quy trình: sổ ký nhận/form online, kiểm tra tình trạng trước/sau, người chịu trách nhiệm.',
+    tags: ['quy trình', 'kho bãi']
+  },
+
+  // II. EQ (20đ)
+  {
+    id: 'hc_eq_1',
+    department: 'hau_can',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu xảy ra tranh chấp hoặc thất lạc dụng cụ, thiết bị quan trọng giữa các ban trong lúc sự kiện đang diễn ra, em làm gì để ổn định tình hình và giữ hòa khí?',
+    isFixed: true, // Cố định
+    defaultPoints: 7,
+    rubric: 'Ưu tiên giải quyết vấn đề trước, không đổ lỗi; tìm thiết bị thay thế tạm thời rồi mới rà soát trách nhiệm.',
+    tags: ['xung đột', 'giữ bình tĩnh', 'cố định']
+  },
+  {
+    id: 'hc_eq_2',
+    department: 'hau_can',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu có thành viên trong ban vắng mặt đột xuất vào đúng ngày trực sự kiện nặng nhọc, em sẽ điều phối và chia sẻ công việc với mọi người ra sao để không ai cảm thấy quá tải?',
+    isFixed: false,
+    defaultPoints: 7,
+    rubric: 'Khả năng phân bổ lại công việc theo mức độ ưu tiên, động viên tinh thần đồng đội, không tỵ nạnh.',
+    tags: ['chia sẻ việc', 'teamwork']
+  },
+  {
+    id: 'hc_eq_3',
+    department: 'hau_can',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu các ban khác liên tục yêu cầu thay đổi thiết bị/vật tư vào phút chót khiến em phải làm lại từ đầu, em kiểm soát cảm xúc và phản hồi thế nào để vừa giữ tiến độ vừa vui vẻ đôi bên?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Giao tiếp thấu hiểu nhưng quyết đoán; giải thích giới hạn thời gian/ngân sách một cách hòa nhã.',
+    tags: ['giao tiếp', 'kiểm soát cảm xúc']
+  },
+  {
+    id: 'hc_eq_4',
+    department: 'hau_can',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Bạn và một bạn khác cùng phụ trách phần khuân vác, setup nặng nhọc. Bạn đã làm rất nhiều nhưng bạn kia tìm cách trốn tránh hoặc lấy lý do để không làm. Bạn sẽ xử lý thế nào?',
+    isFixed: false,
+    defaultPoints: 7,
+    rubric: 'Nói chuyện thẳng thắn riêng tư, tìm hiểu lý do, báo cáo lead nếu tái diễn với tinh thần xây dựng.',
+    tags: ['xung đột nội bộ']
+  },
+  {
+    id: 'hc_eq_5',
+    department: 'hau_can',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Bạn tin phương án sắp xếp kho/vật tư của mình nhanh hơn nhưng Trưởng ban lại chọn cách truyền thống mất thời gian hơn. Bạn phản ứng ra sao?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Tôn trọng quyết định cấp trên nhưng trình bày chứng minh ưu điểm văn minh, thử nghiệm nhỏ trước.',
+    tags: ['góp ý cấp trên']
+  },
+
+  // III. Xử lý tình huống (35đ)
+  {
+    id: 'hc_sit_1',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu sát ngày diễn ra sự kiện (ví dụ: ngày mai thi đấu Robot), nhà trường hoặc đơn vị cho thuê bàn ghế/thiết bị báo hủy phút chót, em sẽ xử lý thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Bình tĩnh kích hoạt phương án B: liên hệ các bên dự phòng, huy động bàn ghế mượn từ lớp/phòng chức năng, báo cáo lead.',
+    tags: ['sự cố giờ chót', 'ứng biến', 'cố định']
+  },
+  {
+    id: 'hc_sit_2',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu ngân sách mua linh kiện, vật liệu STEM bị lệch so với dự toán ban đầu (thiếu hụt nghiêm trọng), em sẽ giải quyết ra sao?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Rà soát cắt giảm danh mục không cấp thiết, tìm nhà cung cấp giá sỉ/thay thế mã tương đương, xin ý kiến duyệt bổ sung.',
+    tags: ['ngân sách', 'tối ưu']
+  },
+  {
+    id: 'hc_sit_3',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu phát hiện một nhà cung cấp linh kiện/vật phẩm giao hàng kém chất lượng hoặc thiếu số lượng ngay trước giờ G, em sẽ xoay sở thế nào?',
+    isFixed: false,
+    defaultPoints: 9,
+    rubric: 'Khiếu nại ngay lập tức yêu cầu giao bù hỏa tốc, đồng thời tìm mua trực tiếp từ cửa hàng điện tử gần nhất.',
+    tags: ['nhà cung cấp', 'khủng hoảng']
+  },
+  {
+    id: 'hc_sit_4',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu phải chuẩn bị hậu cần cho một buổi workshop kỹ thuật phức tạp mà em chưa từng thấy qua bao giờ, em bắt đầu từ đâu để nắm bắt?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Hỏi trực tiếp người phụ trách chuyên môn (Ban Kỹ thuật), lập checklist chi tiết theo kịch bản từng phút, chạy thử (run-through).',
+    tags: ['học hỏi', 'chuẩn bị']
+  },
+  {
+    id: 'hc_sit_5',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Trong lúc sự kiện đang diễn ra, nguồn điện chính của khu vực trưng bày robot bị chập cháy hoặc mất đột ngột. Bạn sẽ làm gì?',
+    isFixed: false,
+    defaultPoints: 9,
+    rubric: 'Ưu tiên ngắt cầu dao an toàn cháy nổ, kiểm tra nguyên nhân chập tải, sử dụng nguồn dự phòng/pin sạc/máy phát.',
+    tags: ['an toàn điện', 'sự cố kỹ thuật']
+  },
+  {
+    id: 'hc_sit_6',
+    department: 'hau_can',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: '18h CLB có sự kiện lớn, nhưng 15h các ban khác mới gửi danh sách yêu cầu bổ sung hàng loạt trang thiết bị. Bạn sẽ ưu tiên xử lý những gì trước?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Phân loại mức độ khẩn cấp: thiết bị vận hành sống còn (điện, mic, bàn thi đấu) làm trước; trang trí phụ để sau.',
+    tags: ['ưu tiên công việc', 'áp lực thời gian']
+  },
+
+  // IV. Thái độ & Cam kết (30đ)
+  {
+    id: 'hc_att_1',
+    department: 'hau_can',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em có sẵn sàng lao động chân tay, vận chuyển đồ đạc nặng hoặc ở lại muộn nhất để dọn dẹp sau sự kiện mà không phàn nàn không?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Thái độ xông xáo, không ngại bẩn/ngại nặng, cam kết trách nhiệm từ đầu đến khi bàn giao xong mặt bằng.',
+    tags: ['tinh thần trách nhiệm', 'lao động', 'cố định']
+  },
+  {
+    id: 'hc_att_2',
+    department: 'hau_can',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Theo em, điều gì thể hiện tính kỷ luật và tinh thần trách nhiệm cao nhất của một người làm công tác hậu cần?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Đúng giờ, kiểm kê kỹ lưỡng đến từng con ốc vít, chủ động làm việc không cần nhắc nhở.',
+    tags: ['kỷ luật', 'đạo đức công việc']
+  },
+  {
+    id: 'hc_att_3',
+    department: 'hau_can',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em muốn đóng góp hoặc cải tiến điều gì cho quy trình làm việc của Ban Hậu cần trong 6 tháng tới?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Có tư duy xây dựng hệ thống: số hóa kho bãi, bảng biểu dự toán thông minh, tối ưu ngân sách.',
+    tags: ['tầm nhìn', 'đóng góp']
+  },
+  {
+    id: 'hc_att_4',
+    department: 'hau_can',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Bạn có lịch kiểm tra quan trọng ở trường vào ngày mai, nhưng hôm nay Ban Hậu cần lại có lịch trực kho và chuẩn bị đồ xuyên đêm cho sự kiện lớn. Bạn sẽ làm gì để cân bằng cả hai?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Chủ động ôn bài trước, thông báo xin đổi ca trực hoặc hỗ trợ phần việc trước giờ G để đảm bảo cả học tập và CLB.',
+    tags: ['quản lý thời gian', 'trung thực']
+  },
+
+  // ==========================================
+  // BAN ĐỐI NGOẠI
+  // ==========================================
+  // I. Năng lực (15đ)
+  {
+    id: 'dn_comp_1',
+    department: 'doi_ngoai',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em hãy giới thiệu ngắn gọn về bản thân và điểm mạnh/điểm yếu lớn nhất của em.',
+    isFixed: true, // Cố định
+    defaultPoints: 5,
+    rubric: 'Thần thái tự tin, giao tiếp lưu loát, nhận thức rõ điểm mạnh (thuyết phục, ngoại giao) và điểm yếu.',
+    tags: ['giới thiệu', 'cố định']
+  },
+  {
+    id: 'dn_comp_2',
+    department: 'doi_ngoai',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Vì sao em muốn tham gia Ban Đối ngoại và em hiểu Ban Đối ngoại của CLB STEM có nhiệm vụ gì?',
+    isFixed: true, // Cố định
+    defaultPoints: 5,
+    rubric: 'Hiểu vai trò: kết nối nhà tài trợ, mời diễn giả, giao lưu với các CLB STEM trường bạn, xây dựng hình ảnh đối tác.',
+    tags: ['nhiệm vụ', 'cố định']
+  },
+  {
+    id: 'dn_comp_3',
+    department: 'doi_ngoai',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Theo em, một thành viên đối ngoại cần có những tố chất quan trọng nào? Em đã từng tham gia hoạt động CLB/sự kiện nào yêu cầu giao tiếp chưa?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Kỹ năng lắng nghe, khéo léo, tác phong chuyên nghiệp, ngoại hình chỉn chu, có kinh nghiệm MC/thuyết trình.',
+    tags: ['tố chất', 'kinh nghiệm']
+  },
+  {
+    id: 'dn_comp_4',
+    department: 'doi_ngoai',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em có nắm được các nguyên tắc cơ bản khi soạn thảo email và tin nhắn đối ngoại chuyên nghiệp không?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Tiêu đề rõ ràng, lời chào kính gửi, xưng hô tôn trọng, nội dung súc tích, chữ ký email đầy đủ liên hệ.',
+    tags: ['kỹ năng email']
+  },
+
+  // II. EQ (20đ)
+  {
+    id: 'dn_eq_1',
+    department: 'doi_ngoai',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu đối tác không trả lời tin nhắn/email sau 3-5 ngày, em sẽ xử lý thế nào để không làm phiền nhưng vẫn đạt mục đích?',
+    isFixed: true, // Cố định
+    defaultPoints: 7,
+    rubric: 'Gửi email follow-up lịch sự, tóm tắt lại ý chính, gọi điện thoại giờ hành chính với giọng điệu tôn trọng.',
+    tags: ['follow up', 'tế nhị', 'cố định']
+  },
+  {
+    id: 'dn_eq_2',
+    department: 'doi_ngoai',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu đối tác từ chối hợp tác/tài trợ, em sẽ phản hồi ra sao để giữ mối quan hệ mở cho tương lai?',
+    isFixed: false,
+    defaultPoints: 7,
+    rubric: 'Cảm ơn vì đã dành thời gian, chúc công ty thành công, đề nghị giữ liên lạc cho các cơ hội phù hợp sau này.',
+    tags: ['ứng xử từ chối', 'giữ quan hệ']
+  },
+  {
+    id: 'dn_eq_3',
+    department: 'doi_ngoai',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu đang làm việc với đối tác nhưng xảy ra hiểu lầm hoặc bất đồng quan điểm giữa hai bên, em giải quyết thế nào để xoa dịu tình hình?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Lắng nghe phản ánh trước, chân thành nhận thiếu sót nếu có, cùng tìm giải pháp dung hòa win-win.',
+    tags: ['hòa giải', 'khéo léo']
+  },
+
+  // III. Xử lý tình huống (35đ)
+  {
+    id: 'dn_sit_1',
+    department: 'doi_ngoai',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu đối tác yêu cầu quyền lợi vượt quá khả năng hoặc vượt ngân sách của CLB (ví dụ đòi phát biểu 30 phút trong sự kiện 60 phút), em sẽ làm gì để cân bằng lợi ích đôi bên?',
+    isFixed: true, // Cố định
+    defaultPoints: 9,
+    rubric: 'Khéo léo từ chối yêu cầu quá đà và bù đắp bằng quyền lợi truyền thông khác (logo to hơn, bài PR độc quyền, quà tặng).',
+    tags: ['đàm phán', 'quyền lợi', 'cố định']
+  },
+  {
+    id: 'dn_sit_2',
+    department: 'doi_ngoai',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu được giao liên hệ với một doanh nghiệp công nghệ lớn nhưng chưa biết cách mở lời, em sẽ bắt đầu nghiên cứu và tiếp cận thế nào?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Tìm hiểu sứ mệnh/sản phẩm công ty, tìm đúng đầu mối HR/CSR, soạn proposal nêu bật giá trị CSR khi tài trợ thế hệ trẻ STEM.',
+    tags: ['tiếp cận', 'nghiên cứu']
+  },
+  {
+    id: 'dn_sit_3',
+    department: 'doi_ngoai',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu sát ngày sự kiện mà nhà tài trợ đột ngột thay đổi yêu cầu hoặc giảm mức tài trợ cam kết, em xử lý ra sao?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Rà soát lại hợp đồng/biên bản ghi nhớ, họp khẩn với Ban Chủ nhiệm, thương lượng giải pháp trung hòa hoặc tìm gói tài trợ cứu viện.',
+    tags: ['khủng hoảng tài trợ', 'bảo vệ CLB']
+  },
+  {
+    id: 'dn_sit_4',
+    department: 'doi_ngoai',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu phải thuyết phục một doanh nghiệp chưa từng làm việc với học sinh tài trợ cho CLB STEM, em sẽ đưa ra những lợi ích cốt lõi nào?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Độ phủ thương hiệu đến phụ huynh/học sinh giỏi toàn trường, hình ảnh trách nhiệm xã hội bồi dưỡng nhân tài kỹ thuật tương lai.',
+    tags: ['thuyết phục', 'giá trị']
+  },
+
+  // IV. Thái độ & Kỹ năng (30đ)
+  {
+    id: 'dn_att_1',
+    department: 'doi_ngoai',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em sẽ giới thiệu CLB STEM với một doanh nghiệp trong vòng 30 giây (Elevator Pitch) như thế nào ngay tại đây?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Phản xạ nhanh, năng lượng, thông điệp rõ ràng: Chúng em là ai, tạo ra giá trị gì, và tại sao doanh nghiệp nên đồng hành.',
+    tags: ['elevator pitch', 'thực hành', 'cố định']
+  },
+  {
+    id: 'dn_att_2',
+    department: 'doi_ngoai',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em tự đánh giá khả năng giao tiếp của mình từ 1–10? Em có tự tin gọi điện thoại hoặc gặp trực tiếp đối tác bên ngoài không?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Sự tự tin, không sợ người lạ, sẵn sàng đại diện bộ mặt CLB xuất hiện trang trọng trước đối tác.',
+    tags: ['tự tin', 'giao tiếp']
+  },
+  {
+    id: 'dn_att_3',
+    department: 'doi_ngoai',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Nếu được giao tìm 5 đối tác tiềm năng trong vòng 1 tuần, em sẽ bắt đầu tìm kiếm từ đâu và bằng cách nào?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Phương pháp hành động cụ thể: cựu học sinh, doanh nghiệp STEM/robotics lân cận, trung tâm đào tạo, LinkedIn, quan hệ gia đình.',
+    tags: ['chủ động', 'kế hoạch']
+  },
+  {
+    id: 'dn_att_4',
+    department: 'doi_ngoai',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Theo em, làm thế nào để duy trì mối quan hệ lâu dài và bền chặt với đối tác sau khi sự kiện kết thúc?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Gửi thư cảm ơn kèm báo cáo hiệu quả sự kiện (ảnh/số liệu), tặng quà kỷ niệm CLB, chúc mừng ngày lễ tết.',
+    tags: ['chăm sóc đối tác']
+  },
+  {
+    id: 'dn_att_5',
+    department: 'doi_ngoai',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em muốn đóng góp cụ thể điều gì cho Ban Đối ngoại trong 6 tháng tới?',
+    isFixed: false,
+    defaultPoints: 5,
+    rubric: 'Cam kết mang lại ít nhất 1-2 nhà tài trợ hoặc kết nối workshop với CLB trường bạn, hoàn thiện hồ sơ mời tài trợ.',
+    tags: ['cam kết', 'mục tiêu']
+  },
+
+  // ==========================================
+  // BAN KỸ THUẬT (MAIN)
+  // ==========================================
+  // I. Năng lực (15đ)
+  {
+    id: 'kt_comp_1',
+    department: 'ky_thuat',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em hãy giới thiệu bản thân và niềm đam mê của mình đối với khoa học - công nghệ / chế tạo STEM.',
+    isFixed: true, // Cố định
+    defaultPoints: 3,
+    rubric: 'Ngọn lửa đam mê, tính tò mò muốn hiểu nguyên lý máy móc mạch điện, sự hào hứng với chế tạo.',
+    tags: ['giới thiệu', 'đam mê', 'cố định']
+  },
+  {
+    id: 'kt_comp_2',
+    department: 'ky_thuat',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em đã từng có kinh nghiệm cụ thể nào về lập trình (Python, C, Arduino...) hay lắp ráp chế tạo mạch/robot/thiết bị chưa?',
+    isFixed: true, // Cố định
+    defaultPoints: 4,
+    rubric: 'Kinh nghiệm thực tế: tên dự án (cánh tay thủy lực, xe đua, tên lửa nước, mạch RFID, code mini...), vai trò.',
+    tags: ['kinh nghiệm kỹ thuật', 'cố định']
+  },
+  {
+    id: 'kt_comp_3',
+    department: 'ky_thuat',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Khi một đoạn code bị báo lỗi hoặc một mạch điện không hoạt động như mong muốn, quy trình debug/tìm lỗi của em là gì?',
+    isFixed: false,
+    defaultPoints: 4,
+    rubric: 'Tư duy logic kỹ sư: đọc log lỗi, cô lập từng module, đo điện áp thông mạch, kiểm tra dây cắm, không đoán mò.',
+    tags: ['tư duy debug', 'giải quyết vấn đề']
+  },
+  {
+    id: 'kt_comp_4',
+    department: 'ky_thuat',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em tự đánh giá điểm mạnh lớn nhất về mặt kỹ thuật của mình là gì (Phần mềm, Phần cứng, Thiết kế 3D/Cơ khí)? Em muốn học thêm mảng nào?',
+    isFixed: false,
+    defaultPoints: 4,
+    rubric: 'Tự nhận thức rõ năng lực chuyên môn, mong muốn học hỏi công nghệ mới trong CLB.',
+    tags: ['định hướng chuyên môn']
+  },
+
+  // II. EQ (20đ)
+  {
+    id: 'kt_eq_1',
+    department: 'ky_thuat',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Khi hai bạn trong nhóm kỹ thuật bất đồng quan điểm gay gắt về giải pháp thiết kế mạch/code khiến tiến độ dự án bị đình trệ, em sẽ can thiệp thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 7,
+    rubric: 'Dựa trên số liệu và kiểm thử thực tế (A/B testing) thay vì cảm tính; đề xuất thử nghiệm nhanh cả hai phương án.',
+    tags: ['xung đột kỹ thuật', 'cố định']
+  },
+  {
+    id: 'kt_eq_2',
+    department: 'ky_thuat',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu một bạn mới vào nhóm sơ ý đấu nhầm cực làm cháy linh kiện đắt tiền hoặc vô tình xóa code của cả nhóm, em sẽ phản ứng và xử lý ra sao?',
+    isFixed: false,
+    defaultPoints: 7,
+    rubric: 'Không trách mắng gây hoảng loạn; giải thích nguyên nhân an toàn; xây dựng quy trình backup Git và kiểm tra kép.',
+    tags: ['khoan dung', 'xây dựng quy trình']
+  },
+  {
+    id: 'kt_eq_3',
+    department: 'ky_thuat',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Làm việc kỹ thuật thường có bạn tiếp thu rất nhanh và có bạn còn mới, nếu được giao hỗ trợ một bạn mới chưa biết gì, em sẽ hướng dẫn ra sao mà không bị sốt ruột?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Kiên nhẫn, chia nhỏ bài tập từ cơ bản, khuyến khích bạn tự thực hành thay vì làm hộ.',
+    tags: ['hướng dẫn', 'kiên nhẫn']
+  },
+
+  // III. Xử lý tình huống (35đ)
+  {
+    id: 'kt_sit_1',
+    department: 'ky_thuat',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Chỉ còn 15 phút trước giờ thi đấu/trưng bày sản phẩm, robot hoặc hệ thống mạch đột ngột mất nguồn hoặc chập chờn không nhận lệnh. Em xử lý từng bước thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Bình tĩnh kiểm tra ngay: Pin/nguồn cấp -> Dây tiếp xúc lỏng -> Đèn báo board mạch -> Reset vi điều khiển -> Module dự phòng.',
+    tags: ['sự cố giờ G', 'bình tĩnh', 'cố định']
+  },
+  {
+    id: 'kt_sit_2',
+    department: 'ky_thuat',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Dự án cần một loại cảm biến hoặc vi điều khiển đặc thù nhưng thị trường hết hàng hoặc giá quá đắt. Em sẽ tìm giải pháp kỹ thuật thay thế ra sao?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Đọc datasheet tìm module chức năng tương đương, tái cấu trúc thuật toán để dùng cảm biến đơn giản hơn.',
+    tags: ['linh hoạt', 'tối ưu giải pháp']
+  },
+  {
+    id: 'kt_sit_3',
+    department: 'ky_thuat',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu CLB giao cho em làm một đề tài công nghệ hoàn toàn mới (ví dụ AI trên vi điều khiển ESP32) mà trường chưa từng dạy, em lên kế hoạch tự học và triển khai ra sao?',
+    isFixed: false,
+    defaultPoints: 9,
+    rubric: 'Khả năng tra cứu tài liệu tiếng Anh, đọc documentation GitHub, tham khảo cộng đồng STEM, làm mô hình mini thử nghiệm trước.',
+    tags: ['tự học', 'nghiên cứu mới']
+  },
+  {
+    id: 'kt_sit_4',
+    department: 'ky_thuat',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Gian hàng STEM của CLB diễn ra ngoài trời thời tiết ẩm ướt hoặc có nguy cơ mưa gián đoạn. Các biện pháp an toàn điện và bảo vệ thiết bị em áp dụng là gì?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Bao bọc hộp cách điện, nâng cao khỏi mặt đất, trang bị aptomat chống giật, ngắt nguồn khẩn cấp khi mưa to.',
+    tags: ['an toàn điện', 'sự kiện ngoài trời']
+  },
+
+  // IV. Thái độ & Cam kết (30đ)
+  {
+    id: 'kt_att_1',
+    department: 'ky_thuat',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Kỹ thuật thường đòi hỏi thử đi thử lại hàng chục lần mới thành công. Em đối diện với sự thất bại và cảm giác nản chí như thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Sự kiên trì bền bỉ (grit), coi mỗi lần thử sai là một dữ liệu để hoàn thiện, không bỏ dở giữa chừng.',
+    tags: ['bền bỉ', 'tâm lý vượt khó', 'cố định']
+  },
+  {
+    id: 'kt_att_2',
+    department: 'ky_thuat',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Em có sẵn sàng ở lại muộn hoặc dành cuối tuần để hoàn thiện sản phẩm trước ngày thi đấu KHKT của trường/tỉnh không?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Mức độ cam kết thời gian thực tế, đam mê cống hiến cho thành tích chung của CLB.',
+    tags: ['cam kết thời gian']
+  },
+  {
+    id: 'kt_att_3',
+    department: 'ky_thuat',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Ý tưởng sản phẩm hoặc dự án công nghệ cụ thể nào em ấp ủ và mong muốn cùng Ban Kỹ thuật hiện thực hóa trong năm học này?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Ý tưởng sáng tạo, có tính khả thi, phù hợp nguồn lực học sinh cấp 3.',
+    tags: ['sáng tạo', 'dự án ấp ủ']
+  },
+
+  // ==========================================
+  // BAN TRUYỀN THÔNG
+  // ==========================================
+  // I. Năng lực (15đ)
+  {
+    id: 'tt_comp_1',
+    department: 'truyen_thong',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em hãy giới thiệu bản thân và phong cách sáng tạo nội dung / hình ảnh mà em yêu thích.',
+    isFixed: true, // Cố định
+    defaultPoints: 3,
+    rubric: 'Cá tính thẩm mỹ, gu hình ảnh (minimalism, cyberpunk, năng động...), sự tự tin khi nói về sản phẩm mình tạo ra.',
+    tags: ['giới thiệu', 'thẩm mỹ', 'cố định']
+  },
+  {
+    id: 'tt_comp_2',
+    department: 'truyen_thong',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Em có kinh nghiệm thực tế về công cụ nào: Thiết kế (Canva/Photoshop/Illustrator/Figma), Quay dựng video (CapCut/Premiere), Chụp ảnh hay Viết content?',
+    isFixed: true, // Cố định
+    defaultPoints: 4,
+    rubric: 'Đánh giá kỹ năng thực chiến qua sản phẩm đã làm: poster, reel, tiktok, bài viết fanpage.',
+    tags: ['công cụ media', 'cố định']
+  },
+  {
+    id: 'tt_comp_3',
+    department: 'truyen_thong',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'CLB STEM thường có hình ảnh khô khan với nhiều học sinh. Theo em, làm thế nào để truyền thông khoa học trở nên hấp dẫn, gần gũi và viral?',
+    isFixed: false,
+    defaultPoints: 4,
+    rubric: 'Tư duy biến kiến thức phức tạp thành meme, video ngắn visual bắt mắt, thử thách thực tế dễ hiểu.',
+    tags: ['sáng tạo nội dung', 'viral']
+  },
+  {
+    id: 'tt_comp_4',
+    department: 'truyen_thong',
+    sectionKey: 'competence',
+    sectionTitle: 'I. Năng lực & Kinh nghiệm',
+    text: 'Theo em, một bài đăng truyền thông thành công cho một sự kiện CLB cần đảm bảo những yếu tố cốt lõi nào?',
+    isFixed: false,
+    defaultPoints: 4,
+    rubric: 'Hook gây tò mò, hình ảnh chỉn chu đúng nhận diện, thông tin thời gian/địa điểm rõ ràng, lời kêu gọi hành động (CTA).',
+    tags: ['kỹ năng content']
+  },
+
+  // II. EQ (20đ)
+  {
+    id: 'tt_eq_1',
+    department: 'truyen_thong',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Khi bạn thiết kế một poster rất tâm huyết nhưng Ban Kỹ thuật hoặc Ban Chủ nhiệm yêu cầu sửa đi sửa lại nhiều lần, em phản ứng thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 7,
+    rubric: 'Không tự ái nghề nghiệp, lắng nghe lý do mục tiêu của người xem, thảo luận văn minh để tìm phương án tối ưu.',
+    tags: ['tiếp thu phản hồi', 'cố định']
+  },
+  {
+    id: 'tt_eq_2',
+    department: 'truyen_thong',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Nếu bài đăng của CLB trên mạng xã hội xuất hiện những bình luận chê bai tiêu cực hoặc bắt bẻ kiến thức, em sẽ giữ bình tĩnh và phản hồi thế nào?',
+    isFixed: false,
+    defaultPoints: 7,
+    rubric: 'Không đôi co tranh cãi công khai; tham khảo ý kiến ban chuyên môn; phản hồi lịch sự, văn minh và cầu thị.',
+    tags: ['quản trị rủi ro', 'bình tĩnh']
+  },
+  {
+    id: 'tt_eq_3',
+    department: 'truyen_thong',
+    sectionKey: 'eq',
+    sectionTitle: 'II. EQ & Làm việc nhóm',
+    text: 'Sát deadline đăng bài nhưng em rơi vào trạng thái cạn kiệt ý tưởng (creative block), em sẽ vượt qua bằng cách nào để không làm trễ tiến độ CLB?',
+    isFixed: false,
+    defaultPoints: 6,
+    rubric: 'Tham khảo moodboard Behance/Pinterest, trao đổi nhanh với đồng đội để brainstorm, chọn phương án an toàn trước.',
+    tags: ['creative block', 'trách nhiệm']
+  },
+
+  // III. Xử lý tình huống (35đ)
+  {
+    id: 'tt_sit_1',
+    department: 'truyen_thong',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Chỉ còn 3 ngày trước sự kiện mở đăng ký tuyển quân STEM nhưng lượng tương tác và đơn nộp rất ít. Em đề xuất kế hoạch truyền thông "cứu nguy" cấp tốc như thế nào?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Chiến dịch cấp tốc: minigame tặng quà, video ngắn teaser hậu trường hài hước, nhờ các fanpage lớp chia sẻ, đẩy seeding.',
+    tags: ['cứu nguy truyền thông', 'cố định']
+  },
+  {
+    id: 'tt_sit_2',
+    department: 'truyen_thong',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Trong buổi sự kiện quan trọng, thẻ nhớ máy ảnh bị lỗi hoặc vô tình làm mất file ghi hình chính. Em xoay sở tư liệu recap ra sao?',
+    isFixed: false,
+    defaultPoints: 9,
+    rubric: 'Huy động ngay ảnh/video quay bằng điện thoại từ các thành viên ban khác và khán giả, dùng phần mềm cứu dữ liệu khẩn.',
+    tags: ['xử lý sự cố tư liệu']
+  },
+  {
+    id: 'tt_sit_3',
+    department: 'truyen_thong',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Nếu bài viết truyền thông đã đăng có một lỗi sai chính tả hoặc sai lệch thông tin nhà tài trợ quan trọng, các bước xử lý của em là gì?',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Chỉnh sửa ngay bài viết nếu có thể, đính chính lịch sự ở bình luận ghim, báo cáo lead đối ngoại để xin lỗi đối tác kịp thời.',
+    tags: ['sửa sai truyền thông']
+  },
+  {
+    id: 'tt_sit_4',
+    department: 'truyen_thong',
+    sectionKey: 'situation',
+    sectionTitle: 'III. Xử lý tình huống',
+    text: 'Em hãy phác thảo một kịch bản video ngắn (TikTok/Reel 30s) giới thiệu một sản phẩm robot của CLB để đạt triệu view.',
+    isFixed: false,
+    defaultPoints: 8,
+    rubric: 'Hook 3s đầu ấn tượng, cao trào robot thực hiện động tác khó hoặc tình huống hài hước, kết bài kêu gọi follow/tham gia CLB.',
+    tags: ['kịch bản video']
+  },
+
+  // IV. Thái độ & Cam kết (30đ)
+  {
+    id: 'tt_att_1',
+    department: 'truyen_thong',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Truyền thông thường phải chạy bài recap ngay trong đêm sau sự kiện và trực bài liên tục. Em có sẵn sàng chịu được áp lực thời gian này không?',
+    isFixed: true, // Cố định
+    defaultPoints: 10,
+    rubric: 'Cam kết trách nhiệm cao, tác phong làm việc nhanh, không để tin tức bị nguội.',
+    tags: ['tốc độ', 'trách nhiệm', 'cố định']
+  },
+  {
+    id: 'tt_att_2',
+    department: 'truyen_thong',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Kỷ luật về nhận diện thương hiệu và việc tôn trọng bản quyền hình ảnh/âm nhạc có ý nghĩa gì đối với em khi làm truyền thông cho CLB?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Ý thức bản quyền, sử dụng nhạc và tài nguyên hợp pháp, giữ gìn uy tín văn hóa học đường của CLB.',
+    tags: ['bản quyền', 'đạo đức nghề nghiệp']
+  },
+  {
+    id: 'tt_att_3',
+    department: 'truyen_thong',
+    sectionKey: 'attitude',
+    sectionTitle: 'IV. Thái độ & Cam kết',
+    text: 'Mục tiêu cụ thể về hình ảnh hoặc chỉ số tăng trưởng (lượt follow, chất lượng bài viết) em muốn mang lại cho kênh truyền thông CLB trong 6 tháng tới?',
+    isFixed: false,
+    defaultPoints: 10,
+    rubric: 'Có mục tiêu định lượng và định tính cụ thể, nhiệt huyết cống hiến cho CLB.',
+    tags: ['mục tiêu', 'tăng trưởng']
+  },
+];

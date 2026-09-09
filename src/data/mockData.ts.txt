@@ -1,0 +1,41 @@
+import { ExamQuestion } from './types';
+
+export const INITIAL_EXAM_QUESTIONS: ExamQuestion[] = [
+  {
+    id: 'ex_1',
+    code: 'EXAM-KT-01',
+    sectionKey: 'kien_thuc',
+    department: 'ky_thuat',
+    category: 'trac_nghiem',
+    difficulty: 'trung_binh',
+    points: 10,
+    title: 'Vi điều khiển ESP32 giao tiếp với cảm biến DHT22 qua giao thức giao tiếp nào là chính?',
+    options: ['One-Wire / Digital Single-Bus', 'I2C', 'SPI', 'UART / Serial'],
+    correctAnswer: 'One-Wire / Digital Single-Bus',
+    rubric: 'Chọn chính xác phương án A.'
+  },
+  {
+    id: 'ex_2',
+    code: 'EXAM-CODE-02',
+    sectionKey: 'kien_thuc',
+    department: 'ky_thuat',
+    category: 'code_snippet',
+    difficulty: 'kho',
+    points: 15,
+    title: 'Viết hàm C++ kiểm tra tính hợp lệ của một chuỗi ngoặc đúng đóng/mở () [] {} sử dụng Stack.',
+    correctAnswer: 'Sử dụng std::stack<char>, duyệt từng ký tự push mở ngoặc, pop kiểm tra khớp khi gặp đóng ngoặc.',
+    rubric: 'Đúng logic Stack: 10đ, Xử lý biên chuỗi rỗng/chỉ có ngoặc mở: 5đ.'
+  },
+  {
+    id: 'ex_3',
+    code: 'EXAM-DN-01',
+    sectionKey: 'tinh_huong',
+    department: 'doi_ngoai',
+    category: 'tinh_huong',
+    difficulty: 'trung_binh',
+    points: 10,
+    title: 'Một nhà tài trợ yêu cầu thay đổi thiết kế Logo CLB trên Backdrop trước giờ sự kiện 2 tiếng. Bạn xử lý như thế nào?',
+    correctAnswer: 'Báo cáo Ban Chủ nhiệm, chuẩn bị phương án in Decal đè khẩn cấp hoặc điều chỉnh thiết kế trình chiếu LED.',
+    rubric: 'Đánh giá kỹ năng giữ bình tĩnh, đàm phán và đưa giải pháp dự phòng thay vì từ chối thẳng.'
+  }
+];

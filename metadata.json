@@ -1,0 +1,7 @@
+{
+  "name": "STEM Interview & Question Bank System",
+  "description": "Hệ thống ngân hàng câu hỏi ngẫu nhiên và cố định theo barem điểm, phỏng vấn ứng viên theo luồng chuẩn macOS, nhập xuất dữ liệu Excel/CSV cho CLB STEM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
