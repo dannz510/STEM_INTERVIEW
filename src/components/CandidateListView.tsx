@@ -42,7 +42,7 @@ export const CandidateListView: React.FC<CandidateListViewProps> = ({
 
   const uniqueClasses = useMemo(() => {
     const set = new Set(candidates.map((c) => c.className).filter(Boolean));
-    return Array.from(set).sort((a, b) => (a || '').localeCompare(b || '', 'vi', { numeric: true }));
+    return Array.from(set).sort((a, b) => String(a || '').localeCompare(String(b || ''), 'vi', { numeric: true }));
   }, [candidates]);
 
   const stats = useMemo(() => {
@@ -86,7 +86,7 @@ export const CandidateListView: React.FC<CandidateListViewProps> = ({
         if (departmentFilter === 'multi') {
           if (!cand.isMultiDepartment && (cand.departments?.length || 0) <= 1) return false;
         } else if (departmentFilter !== 'all') {
-          if (!cand.departments?.includes(departmentFilter)) return false;
+          if (!cand.departments?.includes(departmentFilter as Department)) return false;
         }
 
         if (classFilter !== 'all' && cand.className !== classFilter) return false;
@@ -97,13 +97,15 @@ export const CandidateListView: React.FC<CandidateListViewProps> = ({
         if (sortBy === 'score_desc') return (b.totalScore || 0) - (a.totalScore || 0);
         if (sortBy === 'score_asc') return (a.totalScore || 0) - (b.totalScore || 0);
         if (sortBy === 'name_asc') {
-          const nameA = (a.name || '').split(' ').pop() || (a.name || '');
-          const nameB = (b.name || '').split(' ').pop() || (b.name || '');
+          const rawA = a.name || '';
+          const rawB = b.name || '';
+          const nameA = String(rawA).split(' ').pop() || String(rawA);
+          const nameB = String(rawB).split(' ').pop() || String(rawB);
           return nameA.localeCompare(nameB, 'vi', { sensitivity: 'base' });
         }
         if (sortBy === 'class_asc') {
-          const classA = a.className || '';
-          const classB = b.className || '';
+          const classA = String(a.className || '');
+          const classB = String(b.className || '');
           return classA.localeCompare(classB, 'vi', { numeric: true });
         }
         return 0;
@@ -169,221 +171,230 @@ export const CandidateListView: React.FC<CandidateListViewProps> = ({
       </div>
 
       {/* Control Toolbar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-2xs">
-        <div className="flex flex-wrap items-center gap-2.5 flex-1">
-          {/* Search */}
-          <div className="relative min-w-[240px] flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-xs p-4 space-y-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Tìm theo tên, lớp, SĐT..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              placeholder="Tìm theo tên thí sinh, lớp, SĐT..."
+              className="w-full bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 text-xs rounded-xl pl-9 pr-4 py-2.5 border-0 ring-1 ring-neutral-200 dark:ring-neutral-700 focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
-          {/* Result Filter */}
-          <select
-            value={resultFilter}
-            onChange={(e) => setResultFilter(e.target.value as any)}
-            className="px-3 py-2 text-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-          >
-            <option value="all">Tất cả kết quả</option>
-            <option value="pass">Đậu</option>
-            <option value="reserve">Dự bị</option>
-            <option value="fail">Trượt</option>
-          </select>
+          <div className="flex items-center gap-2 flex-wrap">
+            <label className="cursor-pointer px-3 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
+              <Upload className="w-3.5 h-3.5" />
+              <span>{isImporting ? 'Đang đọc tệp...' : 'Import Excel/CSV'}</span>
+              <input
+                type="file"
+                accept=".xlsx, .xls, .csv"
+                onChange={handleFileUpload}
+                disabled={isImporting}
+                className="hidden"
+              />
+            </label>
 
-          {/* Department Filter */}
-          <select
-            value={departmentFilter}
-            onChange={(e) => setDepartmentFilter(e.target.value as any)}
-            className="px-3 py-2 text-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-          >
-            <option value="all">Tất cả ban</option>
-            <option value="multi">Đăng ký nhiều ban</option>
-            {DEPARTMENTS.map((dept) => (
-              <option key={dept.id} value={dept.id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
+            <button
+              onClick={() => exportCandidatesSummaryExcel(filteredCandidates, 'xlsx')}
+              className="px-3 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-xs font-medium flex items-center gap-1.5 transition-colors"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Xuất Excel</span>
+            </button>
 
-          {/* Class Filter */}
-          <select
-            value={classFilter}
-            onChange={(e) => setClassFilter(e.target.value)}
-            className="px-3 py-2 text-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-          >
-            <option value="all">Tất cả lớp</option>
-            {uniqueClasses.map((cls) => (
-              <option key={cls} value={cls}>
-                {cls}
-              </option>
-            ))}
-          </select>
+            <button
+              onClick={() => exportCandidatesSummaryExcel(filteredCandidates, 'csv')}
+              className="px-3 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-xs font-medium flex items-center gap-1.5 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Xuất CSV</span>
+            </button>
 
-          {/* Sort By */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-2 text-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-          >
-            <option value="score_desc">Điểm: Cao đến thấp</option>
-            <option value="score_asc">Điểm: Thấp đến cao</option>
-            <option value="name_asc">Tên: A-Z</option>
-            <option value="class_asc">Lớp: Tăng dần</option>
-          </select>
+            <button
+              onClick={onAddNewCandidate}
+              className="px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 text-xs font-medium flex items-center gap-1.5 transition-colors shadow-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Thêm Thí Sinh</span>
+            </button>
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2 self-end md:self-auto">
-          {/* Export Excel */}
-          <button
-            onClick={() => exportCandidatesSummaryExcel(candidates)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
-            title="Xuất Excel tổng hợp"
-          >
-            <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-            <span className="hidden sm:inline">Xuất Excel</span>
-          </button>
+        {/* Filter Controls */}
+        <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-neutral-100 dark:border-neutral-800 text-xs">
+          <div className="flex items-center bg-neutral-100 dark:bg-neutral-800 p-1 rounded-xl">
+            <span className="text-neutral-400 px-2 text-[11px] font-medium">Kết quả:</span>
+            {[
+              { key: 'all', label: 'Tất cả' },
+              { key: 'pass', label: 'Đậu' },
+              { key: 'reserve', label: 'Dự bị' },
+              { key: 'fail', label: 'Trượt' },
+              { key: 'not_evaluated', label: 'Chưa PV' },
+            ].map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setResultFilter(opt.key as any)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                  resultFilter === opt.key
+                    ? 'bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-2xs'
+                    : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
 
-          {/* Export Interview Details */}
-          <button
-            onClick={() => exportCandidateInterviewCsv(candidates)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
-            title="Xuất chi tiết phỏng vấn"
-          >
-            <Download className="w-4 h-4 text-blue-600" />
-            <span className="hidden sm:inline">Xuất Chi Tiết</span>
-          </button>
+          <div className="flex items-center gap-1.5 ml-auto">
+            <span className="text-neutral-400 text-[11px]">Lớp:</span>
+            <select
+              value={classFilter}
+              onChange={(e) => setClassFilter(e.target.value)}
+              className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs rounded-xl px-2.5 py-1.5 border-0 outline-none"
+            >
+              <option value="all">Tất cả lớp ({uniqueClasses.length})</option>
+              {uniqueClasses.map((cls) => (
+                <option key={cls} value={cls}>
+                  Lớp {cls}
+                </option>
+              ))}
+            </select>
 
-          {/* Import file */}
-          <label className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors cursor-pointer">
-            <Upload className="w-4 h-4 text-amber-600" />
-            <span className="hidden sm:inline">{isImporting ? 'Đang nhập...' : 'Nhập tệp'}</span>
-            <input type="file" accept=".xlsx, .xls, .csv" onChange={handleFileUpload} className="hidden" disabled={isImporting} />
-          </label>
-
-          {/* Add New Candidate */}
-          <button
-            onClick={onAddNewCandidate}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-xs transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Thêm ứng viên</span>
-          </button>
+            <span className="text-neutral-400 text-[11px] ml-2">Sắp xếp:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs rounded-xl px-2.5 py-1.5 border-0 outline-none"
+            >
+              <option value="score_desc">Điểm: Cao → Thấp</option>
+              <option value="score_asc">Điểm: Thấp → Cao</option>
+              <option value="name_asc">Tên thí sinh: A → Z</option>
+              <option value="class_asc">Thứ tự lớp</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* Candidates Table / List */}
-      <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-2xs overflow-hidden">
+      {/* Table Data */}
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/50 text-[11px] font-semibold text-neutral-500 uppercase tracking-wider">
-                <th className="py-3 px-4">Họ và tên</th>
-                <th className="py-3 px-4">Lớp</th>
-                <th className="py-3 px-4">Ban đăng ký</th>
-                <th className="py-3 px-4 text-center">Trạng thái</th>
-                <th className="py-3 px-4 text-center">Tổng điểm</th>
-                <th className="py-3 px-4 text-center">Kết quả</th>
-                <th className="py-3 px-4 text-right">Thao tác</th>
+              <tr className="border-b border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-800/40 text-neutral-500 font-semibold uppercase tracking-wider text-[11px]">
+                <th className="py-3.5 px-4 w-12 text-center">STT</th>
+                <th className="py-3.5 px-4">Thí Sinh</th>
+                <th className="py-3.5 px-4">Lớp</th>
+                <th className="py-3.5 px-4">Ban Ứng Tuyển</th>
+                <th className="py-3.5 px-4 text-center">Tổng Điểm</th>
+                <th className="py-3.5 px-4 text-center">Kết Quả</th>
+                <th className="py-3.5 px-4 text-right">Thao Tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/60 text-sm">
+            <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/60">
               {filteredCandidates.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-neutral-400">
-                    Không tìm thấy ứng viên phù hợp.
+                    Không tìm thấy thí sinh nào phù hợp với bộ lọc.
                   </td>
                 </tr>
               ) : (
-                filteredCandidates.map((cand) => {
-                  const deptNames = (cand.departments || []).map(
-                    (dId) => DEPARTMENTS.find((d) => d.id === dId)?.name || dId
-                  );
-
-                  return (
-                    <tr key={cand.id} className="hover:bg-neutral-50/50 dark:hover:bg-neutral-800/50 transition-colors">
-                      <td className="py-3.5 px-4 font-medium text-neutral-900 dark:text-neutral-100">
-                        {cand.name}
-                      </td>
-                      <td className="py-3.5 px-4 text-neutral-600 dark:text-neutral-400 font-mono text-xs">
-                        {cand.className || '---'}
-                      </td>
-                      <td className="py-3.5 px-4 text-neutral-600 dark:text-neutral-400 text-xs">
-                        {deptNames.join(', ') || 'Chưa chọn'}
-                      </td>
-                      <td className="py-3.5 px-4 text-center">
-                        <span
-                          className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-medium ${
-                            cand.status === 'completed'
-                              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/50'
-                              : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400'
-                          }`}
-                        >
-                          {cand.status === 'completed' ? 'Đã phỏng vấn' : 'Chưa phỏng vấn'}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4 text-center font-mono font-semibold text-neutral-900 dark:text-neutral-100">
-                        {cand.status === 'completed' ? `${cand.totalScore || 0}đ` : '---'}
-                      </td>
-                      <td className="py-3.5 px-4 text-center">
-                        {cand.status === 'completed' ? (
+                filteredCandidates.map((cand, idx) => (
+                  <tr key={cand.id} className="hover:bg-neutral-50/80 dark:hover:bg-neutral-800/40 transition-colors">
+                    <td className="py-3.5 px-4 text-center font-mono text-neutral-400">{idx + 1}</td>
+                    <td className="py-3.5 px-4">
+                      <div className="font-semibold text-neutral-900 dark:text-neutral-100 text-sm">{cand.name}</div>
+                      <div className="text-[11px] text-neutral-400 flex items-center gap-1.5 mt-0.5">
+                        {cand.phone && <span>{cand.phone}</span>}
+                        {cand.phone && cand.email && <span>•</span>}
+                        {cand.email && <span className="truncate max-w-[140px]">{cand.email}</span>}
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-medium">
+                        {cand.className}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-1 flex-wrap">
+                        {cand.departments?.map((d) => (
                           <span
-                            className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
-                              cand.result === 'pass'
-                                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800/50'
-                                : cand.result === 'reserve'
-                                ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200/50 dark:border-amber-800/50'
-                                : 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300 border border-red-200/50 dark:border-red-800/50'
+                            key={d}
+                            className={`text-[11px] px-2 py-0.5 rounded-md font-medium ${
+                              DEPARTMENTS[d]?.badgeClass || 'bg-neutral-100 text-neutral-800'
                             }`}
                           >
-                            {cand.result === 'pass' ? 'Đậu' : cand.result === 'reserve' ? 'Dự bị' : 'Trượt'}
+                            {DEPARTMENTS[d]?.shortName || d}
                           </span>
-                        ) : (
-                          <span className="text-neutral-400 text-xs">---</span>
-                        )}
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          {/* Interview / Resume button */}
-                          <button
-                            onClick={() => onSelectCandidateToInterview(cand.id)}
-                            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors"
-                            title="Bắt đầu/Tiếp tục phỏng vấn"
-                          >
-                            <Play className="w-4 h-4" />
-                          </button>
-
-                          {/* View details */}
-                          <button
-                            onClick={() => onViewCandidateDetail(cand)}
-                            className="p-1.5 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                            title="Xem chi tiết"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-
-                          {/* Delete */}
-                          <button
-                            onClick={() => {
-                              if (confirm(`Bạn có chắc muốn xóa ứng viên ${cand.name}?`)) {
-                                onDeleteCandidate(cand.id);
-                              }
-                            }}
-                            className="p-1.5 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors"
-                            title="Xóa ứng viên"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      {cand.status === 'completed' ? (
+                        <div className="font-mono font-bold text-sm text-neutral-900 dark:text-neutral-100">
+                          {cand.totalScore}
+                          <span className="text-[10px] text-neutral-400 font-normal"> / 100</span>
                         </div>
-                      </td>
-                    </tr>
-                  );
-                })
+                      ) : (
+                        <span className="text-neutral-400 text-xs italic">Chưa chấm</span>
+                      )}
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      {cand.result === 'pass' && (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                          ĐẬU
+                        </span>
+                      )}
+                      {cand.result === 'reserve' && (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
+                          DỰ BỊ
+                        </span>
+                      )}
+                      {cand.result === 'fail' && (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300">
+                          TRƯỢT
+                        </span>
+                      )}
+                      {cand.result === 'not_evaluated' && (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400">
+                          Chưa PV
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => onSelectCandidateToInterview(cand.id)}
+                          className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:hover:bg-blue-900/50 font-medium text-xs flex items-center gap-1 transition-colors"
+                        >
+                          <Play className="w-3 h-3" />
+                          <span>{cand.status === 'completed' ? 'Chấm lại' : 'PV ngay'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => onViewCandidateDetail(cand)}
+                          className="p-1.5 rounded-lg text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            if (window.confirm(`Xác nhận xóa thí sinh "${cand.name}" khỏi hệ thống?`)) {
+                              onDeleteCandidate(cand.id);
+                            }
+                          }}
+                          className="p-1.5 rounded-lg text-neutral-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                          title="Xóa thí sinh"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
@@ -392,3 +403,5 @@ export const CandidateListView: React.FC<CandidateListViewProps> = ({
     </div>
   );
 };
+
+export default CandidateListView;
